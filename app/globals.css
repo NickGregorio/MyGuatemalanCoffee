@@ -1,0 +1,230 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   MyGuatemalanCoffee.com — design tokens
+
+   CONTRAST RULE — READ BEFORE USING #50C878
+   ------------------------------------------------------------------
+   The brand green was measured, not eyeballed (WCAG 2.1 relative luminance):
+
+     #50C878 on near-black #0C1311   8.84:1   AAA
+     #50C878 on espresso   #2B1D16   7.65:1   AAA
+     #50C878 on cream      #FAF6EF   1.97:1   FAILS EVERYTHING
+
+   #50C878 IS A DARK-BACKGROUND COLOUR. On any light ground it is a FILL,
+   never text: not body copy, not labels, not links.
+
+   How this file stops you getting that wrong
+   ------------------------------------------------------------------
+   Colours are named by ROLE, not by hue. There is no `text-emerald` utility
+   to misuse. Instead:
+
+     --color-accent       ALWAYS >= 4.5:1 on --color-bg and --color-surface,
+                          in EVERY palette and EVERY tone. Safe for any text.
+     --color-accent-fill  The literal brand #50C878. Fills, rules, icons and
+                          display type >= 24px ONLY. Never small text.
+
+   On dark palettes those two happen to be the same colour. On light ones
+   accent darkens to #0E7A45 (5.01:1 on cream) while the fill stays #50C878.
+   A component writes `text-accent` and is correct everywhere, automatically.
+
+   THE ONE REMAINING TRAP: an opacity modifier changes the ratio. `text-accent/70`
+   is not `text-accent` — it composites against the ground and must be
+   re-measured. Chroma Group shipped a /70 that quietly landed at 2.72:1.
+
+   Palettes
+   ------------------------------------------------------------------
+   Three, swapped with one attribute on <html data-palette="...">:
+     (default)  altura   — dark, green-shifted near-black. Brand colour unrestricted.
+     antigua             — warm cream + espresso, editorial.
+     huehue              — deep espresso surfaces, warm.
+
+   Any section may flip to the palette's opposing ground with data-tone="invert".
+   Every token is redefined there, so contrast holds inside inverted sections too.
+--------------------------------------------------------------------------- */
+
+@theme {
+  /* Palette 1 — "Altura" (default). Values are overridden below per palette. */
+  --color-bg: #0c1311;
+  --color-surface: #131c19;
+  --color-surface-2: #1b2622;
+  --color-line: #2a3833;
+  --color-heading: #ffffff;
+  --color-text: #e4eae7;
+  --color-muted: #a8b3ae;
+  --color-accent: #50c878;
+  --color-accent-fill: #50c878;
+  --color-on-accent: #0c1311;
+  --color-warm: #e8a87c;
+
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+
+  --text-hero: clamp(2.25rem, 1.5rem + 3.6vw, 4.5rem);
+  --text-section: clamp(1.75rem, 1.35rem + 1.9vw, 2.75rem);
+  --space-section: clamp(3.5rem, 2.4rem + 5.5vw, 7rem);
+  --space-gutter: clamp(1.25rem, 0.9rem + 1.8vw, 2.5rem);
+}
+
+/* --- Tone: invert, on the default Altura palette (dark -> light panel) ---- */
+[data-tone="invert"] {
+  --color-bg: #f2f5f3;
+  --color-surface: #ffffff;
+  --color-surface-2: #e7edea;
+  --color-line: #d6dedA;
+  --color-heading: #0c1311;
+  --color-text: #1f2a26;
+  --color-muted: #4e5a55;
+  --color-accent: #0e7a45;
+  --color-accent-fill: #50c878;
+  --color-on-accent: #0c1311;
+  --color-warm: #8c4a24;
+}
+
+/* ------------------------- Palette 2 — "Antigua" ------------------------- */
+[data-palette="antigua"] {
+  --color-bg: #faf6ef;
+  --color-surface: #ffffff;
+  --color-surface-2: #f2ece1;
+  --color-line: #e2dbd0;
+  --color-heading: #1a1f1c;
+  --color-text: #2e3532;
+  --color-muted: #5a6560;
+  --color-accent: #0e7a45;
+  --color-accent-fill: #50c878;
+  --color-on-accent: #0c1311;
+  --color-warm: #8c4a24;
+}
+
+[data-palette="antigua"] [data-tone="invert"] {
+  --color-bg: #1a1f1c;
+  --color-surface: #232a26;
+  --color-surface-2: #2c3430;
+  --color-line: #333c37;
+  --color-heading: #ffffff;
+  --color-text: #e4eae7;
+  --color-muted: #a8b3ae;
+  --color-accent: #50c878;
+  --color-accent-fill: #50c878;
+  --color-on-accent: #0c1311;
+  --color-warm: #e8a87c;
+}
+
+/* -------------------------- Palette 3 — "Huehue" ------------------------- */
+[data-palette="huehue"] {
+  --color-bg: #2b1d16;
+  --color-surface: #34241b;
+  --color-surface-2: #3e2b20;
+  --color-line: #4a3527;
+  --color-heading: #f5f1ea;
+  --color-text: #ece4d9;
+  --color-muted: #c4b5a8;
+  --color-accent: #50c878;
+  --color-accent-fill: #50c878;
+  --color-on-accent: #2b1d16;
+  --color-warm: #e8a87c;
+}
+
+[data-palette="huehue"] [data-tone="invert"] {
+  --color-bg: #f5f1ea;
+  --color-surface: #ffffff;
+  --color-surface-2: #ebe4d9;
+  --color-line: #e0d8cc;
+  --color-heading: #2b1d16;
+  --color-text: #3a2b22;
+  --color-muted: #6b5a4e;
+  --color-accent: #0e7a45;
+  --color-accent-fill: #50c878;
+  --color-on-accent: #2b1d16;
+  --color-warm: #8c4a24;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* The sticky header must not cover the target of an in-page anchor. */
+  scroll-padding-top: 5rem;
+  background: var(--color-bg);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* An inverted section paints its own ground rather than inheriting the page's. */
+[data-tone="invert"] {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* One visible focus treatment for the whole page. --color-accent is the only
+   brand colour guaranteed to clear AA on every ground, which is exactly why
+   the focus ring uses it. */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+::selection {
+  background: var(--color-accent-fill);
+  color: #0c1311;
+}
+
+/* Tabular figures for altitudes and volumes, so numbers line up in a column. */
+.nums {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Logo animation — the hero mark only.
+
+   The eight strokes of the "Ocho" mark are the eight coffee regions. They
+   arrive one at a time, sweeping out from the centre, then stop. It runs once
+   on load and never loops: it states the idea and gets out of the way.
+
+   The reduced-motion block above collapses these to ~0ms, so a visitor who
+   asks for no motion sees the finished mark immediately.
+--------------------------------------------------------------------------- */
+.ray {
+  animation: ray-in 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  /* view-box, so 50% 50% resolves to the centre of the 64x64 viewBox and the
+     petals sweep OUT FROM the middle. fill-box would scale each petal about
+     its own centre, which reads as a twitch rather than a bloom. */
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+}
+.ray-0 { animation-delay: 40ms; }
+.ray-1 { animation-delay: 95ms; }
+.ray-2 { animation-delay: 150ms; }
+.ray-3 { animation-delay: 205ms; }
+.ray-4 { animation-delay: 260ms; }
+.ray-5 { animation-delay: 315ms; }
+.ray-6 { animation-delay: 370ms; }
+.ray-7 { animation-delay: 425ms; }
+
+@keyframes ray-in {
+  from {
+    opacity: 0;
+    transform: scale(0.55);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

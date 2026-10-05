@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "myguatemalancoffee",
+  "account_id": "1c3a3df9f860c59e552f5a9a7f62424d",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "vinext/server/fetch-handler",
+  "assets": {
+    "not_found_handling": "none"
+  },
+  "observability": { "enabled": true }
+}

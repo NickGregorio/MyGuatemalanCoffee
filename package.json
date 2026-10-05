@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "dev:vinext": "vite dev --port 3001",
+    "build:vinext": "vite build",
+    "start:vinext": "vite preview",
+    "deploy:vinext": "vinext-cloudflare deploy"
   },
   "dependencies": {
     "next": "16.3.4",
@@ -16,13 +20,23 @@
     "zod": "^4.6.2"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.62.5",
     "@tailwindcss/postcss": "^4",
+    "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vinext/cloudflare": "^1.0.1",
+    "@vitejs/plugin-react": "^6.1.1",
+    "@vitejs/plugin-rsc": "^0.5.35",
     "eslint": "^9",
     "eslint-config-next": "16.3.4",
+    "react-server-dom-webpack": "^19.2.8",
     "tailwindcss": "^4",
-    "typescript": "^5"
-  }
+    "typescript": "^5",
+    "vinext": "^1.0.1",
+    "vite": "^8.3.2",
+    "wrangler": "^4.147.0"
+  },
+  "type": "module"
 }
